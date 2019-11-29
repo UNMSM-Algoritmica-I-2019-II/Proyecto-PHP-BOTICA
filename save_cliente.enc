@@ -1,0 +1,28 @@
+<?php
+
+include("db.php");
+
+if(isset($_POST['save_cliente'])){
+    $dni = $_POST['dni'];
+    $nombre = $_POST['nombre'];
+    $telefono = $_POST['telefono'];
+
+    //RECIBO LOS DATOS, INSERTA DENTRO DE TAREAS
+    $query = "INSERT INTO  cliente(dni, nombre, telefono) VALUES ('$dni', '$nombre', '$telefono')";
+
+    //COMPROBAR SI LA CONSULTA HA SIDO REALIZADA
+    $result = mysqli_query($conn, $query);
+    if(!$result){
+        die("Query Failed");
+    }
+
+    //GUARDAR DENTRO DE SESSION UN MENSAJE
+
+    $_SESSION['message'] = 'Cliente registrado exitosamente';
+    $_SESSION['message_type'] = 'success';
+
+    //REDIRECCIONAR
+    header("Location: cliente.php");
+
+}
+?>

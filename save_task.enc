@@ -1,0 +1,28 @@
+<?php
+
+include("db.php");
+
+if(isset($_POST['save_task'])){
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $precio = $_POST['precio'];
+
+    //RECIBO LOS DATOS, INSERTA DENTRO DE TAREAS
+    $query = "INSERT INTO  producto(codigo, nombre, precio) VALUES ('$title', '$description', '$precio')";
+
+    //COMPROBAR SI LA CONSULTA HA SIDO REALIZADA
+    $result = mysqli_query($conn, $query);
+    if(!$result){
+        die("Query Failed");
+    }
+
+    //GUARDAR DENTRO DE SESSION UN MENSAJE
+
+    $_SESSION['message'] = 'Producto agregado exitosamente';
+    $_SESSION['message_type'] = 'success';
+
+    //REDIRECCIONAR
+    header("Location: producto.php");
+
+}
+?>

@@ -1,0 +1,57 @@
+<?php
+    include("db.php");
+
+    if(isset($_GET['id'])) {
+        $id = $_GET['id'];
+        $query = "SELECT * FROM producto WHERE id = $id";
+        $result = mysqli_query($conn, $query);
+        if(mysqli_num_rows($result) == 1 ){
+            $row = mysqli_fetch_array($result);
+            $title = $row['codigo'];
+            $description = $row['nombre'];
+            $precio = $row['precio'];
+        }
+    }
+
+    if (isset($_POST['update'])) {
+        $id = $_GET['id'];
+        $codigo = $_POST['codigo'];
+        $nombre = $_POST['nombre'];
+        $precio= $_POST['precio'];
+
+        $query = "UPDATE producto set codigo = '$codigo', nombre = '$nombre', precio = '$precio' WHERE id = $id";
+        mysqli_query($conn, $query);
+
+        $_SESSION['message'] = 'Producto actualizado exitosamente';
+        $_SESSION['message_type'] = 'warning';
+        header("Location: producto.php");
+    }
+
+?>
+
+<?php include("includes/header.php") ?>
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card card-body">
+                <form action="edit.php?id=<?php echo $_GET['id']; ?>" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="codigo" value="<?php echo $title; ?>" class="form-control" placeholder="Actualizar código">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="nombre" value="<?php echo $description; ?>" class="form-control" placeholder="Actualizar nombre">
+                    </div>
+                    <div clas="form-group">
+                        <input type="text" name="precio" value="<?php echo $precio; ?>" class="form-control" placeholder="Actualizar precio">
+                    </div>
+                        <button class="btn btn-success" name="update">
+                            Actualizar
+                        </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php include("includes/footer.php") ?>
